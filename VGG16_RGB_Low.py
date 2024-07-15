@@ -244,7 +244,7 @@ print(f"y_Test Shape: {y_test.shape}")
 ##########################################################################################################################################################################
 
 vgg16_wcw_model = create_vgg16_model()
-vgg16_wcw_model.compile(optimizer=Adam(learning_rate=0.001), loss='binary_crossentropy', metrics=['accuracy'])
+vgg16_wcw_model.compile(optimizer=Adam(learning_rate=2e-06), loss='binary_crossentropy', metrics=['accuracy'])
 
 wcw_model_checkpoint = keras.callbacks.ModelCheckpoint(filepath='/WACV_Paper/Models/LOW_VGG16_RGB_wCW.keras', save_best_only=True, monitor='val_accuracy', mode='max', verbose=1)
 wcw_model_early_stopping = keras.callbacks.EarlyStopping(monitor='val_accuracy', min_delta=0, patience=10, restore_best_weights=True)
