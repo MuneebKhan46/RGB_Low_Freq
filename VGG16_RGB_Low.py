@@ -31,7 +31,8 @@ class_1_accuracies = []
 original_dir = '/WACV_Paper/Dataset/maid-dataset-low-frequency/original'
 denoised_dir = '/WACV_Paper/Dataset/maid-dataset-low-frequency/denoised'
 csv_path     = '/WACV_Paper/Dataset/maid-dataset-low-frequency/classified_label.csv'
-result_file_path = "/WACV_Paper/Result/RGB_Result_Low_Frequency.csv"
+
+result_file_path = "/WACV_Paper/Result/LOW_RGB_Result_Frequency.csv"
 
 #########################################################################################################################################################################################################################################
 
@@ -245,13 +246,13 @@ print(f"y_Test Shape: {y_test.shape}")
 vgg16_wcw_model = create_vgg16_model()
 vgg16_wcw_model.compile(optimizer=Adam(learning_rate=0.001), loss='binary_crossentropy', metrics=['accuracy'])
 
-wcw_model_checkpoint = keras.callbacks.ModelCheckpoint(filepath='/WACV_Paper/Models/VGG16_RGB_low_wCW.keras', save_best_only=True, monitor='val_accuracy', mode='max', verbose=1)
+wcw_model_checkpoint = keras.callbacks.ModelCheckpoint(filepath='/WACV_Paper/Models/LOW_VGG16_RGB_wCW.keras', save_best_only=True, monitor='val_accuracy', mode='max', verbose=1)
 wcw_model_early_stopping = keras.callbacks.EarlyStopping(monitor='val_accuracy', min_delta=0, patience=10, restore_best_weights=True)
 
 wcw_history = vgg16_wcw_model.fit(X_train, y_train, epochs=50, validation_data=(X_val, y_val), callbacks=[wcw_model_checkpoint, wcw_model_early_stopping])
 
 wcw_history_df = pd.DataFrame(wcw_history.history)
-wcw_history_df.to_csv('/WACV_Paper/History_RGB/VGG16_RGB_low_wCW.csv', index=False)
+wcw_history_df.to_csv('/WACV_Paper/History_RGB/LOW_VGG16_RGB_wCW.csv', index=False)
 
 
 # ##########################################################################################################################################################################
@@ -302,7 +303,7 @@ predicted_labels = np.argmax(predictions, axis=1)
 precision, recall, _ = precision_recall_curve(y_test, predictions[:, 0])
 
 pr_data = pd.DataFrame({'Precision': precision, 'Recall': recall })
-file_path = '/WACV_Paper/Plots_CSV/VGG16_RGB_low_wCW_PR_Curve.csv'
+file_path = '/WACV_Paper/Plots_CSV/LOW_VGG16_RGB_wCW_PR_Curve.csv'
 pr_data.to_csv(file_path, index=False)
 
 
@@ -313,7 +314,7 @@ plt.ylabel('Precision')
 plt.title('Precision-Recall Curve')
 plt.legend()
 plt.grid(True)
-precision_recall_curve_path = '/WACV_Paper/Plots_RGB/VGG16_RGB_low_wCW_PR_Curve.png'
+precision_recall_curve_path = '/WACV_Paper/Plots_RGB/LOW_VGG16_RGB_wCW_PR_Curve.png'
 
 if not os.path.exists(os.path.dirname(precision_recall_curve_path)):
     os.makedirs(os.path.dirname(precision_recall_curve_path))
